@@ -1,0 +1,10 @@
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\bin\Debug\Minesweeper.exe.config
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\bin\Debug\Minesweeper.exe
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\bin\Debug\Minesweeper.pdb
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\obj\Debug\Minesweeper.MinesweeperForm.resources
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\obj\Debug\Minesweeper.Properties.Resources.resources
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\obj\Debug\Minesweeper.csproj.GenerateResource.cache
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\obj\Debug\Minesweeper.csproj.CoreCompileInputs.cache
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\obj\Debug\Minesweeper.exe
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\obj\Debug\Minesweeper.pdb
+\\et-fileserver\staff\pawnol\Desktop\Minesweeper\obj\Debug\Minesweeper.csproj.AssemblyReference.cache
