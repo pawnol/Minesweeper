@@ -46,13 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\CellLabel.cs">
+    <Compile Include="CellLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Components\CellLabel.Designer.cs">
+    <Compile Include="CellLabel.Designer.cs">
       <DependentUpon>CellLabel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Components\ColorPalette.cs" />
+    <Compile Include="ColorPalette.cs" />
     <Compile Include="MinesweeperForm.cs">
       <SubType>Form</SubType>
     </Compile>
