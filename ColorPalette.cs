@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Minesweeper.Components
+namespace Minesweeper
 {
     /// <summary>
     /// Stores the RGP values for all the colors needed for the application.

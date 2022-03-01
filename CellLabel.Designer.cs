@@ -1,5 +1,5 @@
 ﻿
-namespace Minesweeper.Components
+namespace Minesweeper
 {
     partial class CellLabel
     {

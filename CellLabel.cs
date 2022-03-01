@@ -1,12 +1,12 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 
-namespace Minesweeper.Components
+namespace Minesweeper
 {
     /// <summary>
     /// Represents a GUI cell within the minefield.
     /// </summary>
-    public partial class CellLabel : Label
+    partial class CellLabel : Label
     {
         /// <summary>
         /// Internal field to store whether the cell has a flag in it.
