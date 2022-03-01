@@ -13,12 +13,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Minesweeper.Components;
 
 namespace Minesweeper
 {
     public partial class MinesweeperForm : Form
     {
+
+        private Minefield minefield;
+
         public MinesweeperForm()
         {
             InitializeComponent();
@@ -31,8 +33,7 @@ namespace Minesweeper
         /// <param name="e"></param>
         private void MinesweeperForm_Load(object sender, EventArgs e)
         {
-            this.CenterToScreen();
-            BuildMinefield(8, 8);
+            BuildMinefield(10, 10);
         }
 
         /// <summary>
@@ -43,27 +44,31 @@ namespace Minesweeper
         /// <param name="e">Cast to MouseEventArgs to determine mouse button clicked.</param>
         private void CellLabel_Click(object sender, EventArgs e)
         {
-            CellLabel cell = (CellLabel)sender;
+            CellLabel cellLabel = (CellLabel)sender;
             MouseEventArgs me = (MouseEventArgs)e;
-            if(me.Button == MouseButtons.Right && !cell.HasFlag)
+            Cell cell = minefield.GetCell(cellLabel.Row, cellLabel.Column);
+            if (me.Button == MouseButtons.Right && !cell.HasFlag)
             {
+                cellLabel.Image = Properties.Resources.Flag;
                 cell.HasFlag = true;
             }
             else if (cell.HasFlag)
             {
+                cellLabel.Image = null;
                 cell.HasFlag = false;
             }
             else
             {
-                if ((cell.Row + cell.Column) % 2 == 0)
+                if ((cellLabel.Row + cellLabel.Column) % 2 == 0)
                 {
-                    cell.BackColor = ColorPalette.LightTan;
+                    cellLabel.BackColor = ColorPalette.LightTan;
                 }
                 else
                 {
-                    cell.BackColor = ColorPalette.DarkTan;
+                    cellLabel.BackColor = ColorPalette.DarkTan;
                 }
-                cell.Enabled = false;
+                cellLabel.Text = cell.SurroundingBombs.ToString();
+                cellLabel.Enabled = false;
             }
         }
 
@@ -92,7 +97,6 @@ namespace Minesweeper
                     cell.TextAlign = ContentAlignment.MiddleCenter;
                     cell.Row = i;
                     cell.Column = j;
-                    cell.HasFlag = false;
                     cell.Click += new EventHandler(CellLabel_Click);
                     mineFieldPanel.Controls.Add(cell);
                     x += CELL_SIZE;
@@ -102,6 +106,8 @@ namespace Minesweeper
             int centerX = (this.ClientSize.Width - mineFieldPanel.Width) / 2;
             int centerY = (this.ClientSize.Height- mineFieldPanel.Height) / 2;
             mineFieldPanel.Location = new Point(centerX, centerY);
+
+            minefield = new Minefield(rows, columns, 10);
         }
     }
 }
