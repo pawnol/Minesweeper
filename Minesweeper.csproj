@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Minesweeper.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cell.cs" />
     <Compile Include="CellLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -53,6 +57,7 @@
       <DependentUpon>CellLabel.cs</DependentUpon>
     </Compile>
     <Compile Include="ColorPalette.cs" />
+    <Compile Include="Minefield.cs" />
     <Compile Include="MinesweeperForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,7 +93,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Flag.png" />
+    <None Include="Resources\Flag.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,7 +5,7 @@ namespace Minesweeper
     /// <summary>
     /// Stores the RGP values for all the colors needed for the application.
     /// </summary>
-    public struct ColorPalette
+    readonly struct ColorPalette
     {
         /// <summary>
         /// Gets a color represented by an RGB value of 174, 219, 10.
