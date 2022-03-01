@@ -18,7 +18,7 @@ namespace Minesweeper
         }
 
         /// <summary>
-        /// 
+        /// This builds the minefield when the form loads.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
