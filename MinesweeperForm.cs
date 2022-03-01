@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Minesweeper Form
+ * Pawelski
+ * 3/1/2022
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,7 +24,7 @@ namespace Minesweeper
         }
 
         /// <summary>
-        /// 
+        /// This builds the minefield when the form loads.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
