@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 
-namespace Minesweeper
+namespace Minesweeper.Components
 {
     /// <summary>
     /// Represents a GUI cell within the minefield.
