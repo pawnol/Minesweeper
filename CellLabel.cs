@@ -17,6 +17,16 @@ namespace Minesweeper
         /// </summary>
         public int Column { get; set; }
 
+        /// <summary>
+        /// Represents whether the control is enabled. This hides the property
+        /// Enabled inherited from Label to allow the ability to change the 
+        /// appearance of the control.
+        /// </summary>
+        new public bool Enabled { get; set; }
+
+        /// <summary>
+        /// Creates a CellLabel object.
+        /// </summary>
         public CellLabel()
         {
             InitializeComponent();
