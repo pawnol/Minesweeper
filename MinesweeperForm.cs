@@ -14,6 +14,7 @@ namespace Minesweeper
     {
 
         private Minefield minefield;
+        private int revealCount;
 
         public MinesweeperForm()
         {
@@ -38,8 +39,8 @@ namespace Minesweeper
         /// <param name="e">Cast to MouseEventArgs to determine mouse button clicked.</param>
         private void CellLabel_Click(object sender, EventArgs e)
         {
-            CellLabel cellLabel = (CellLabel)sender;
-            MouseEventArgs me = (MouseEventArgs)e;
+            CellLabel cellLabel = sender as CellLabel;
+            MouseEventArgs me = e as MouseEventArgs;
             Cell cell = minefield.GetCell(cellLabel.Row, cellLabel.Column);
             if (cellLabel.Enabled)
             {
@@ -49,7 +50,7 @@ namespace Minesweeper
                     cell.HasFlag = true;
                     if (minefield.HasFoundAllMines())
                     {
-                        // To be determined...
+                        GameWon();
                     }
                 }
                 else if (cell.HasFlag)
@@ -69,8 +70,31 @@ namespace Minesweeper
                     {
                         cellLabel.Text = cell.SurroundingBombs.ToString();
                     }
-                    cellLabel.Enabled = false;
+                    else
+                    {
+                        RevealArea(cell);
+                    }
                 }
+            }
+        }
+
+        private void revealTimer_Tick(object sender, EventArgs e)
+        {
+            CellLabel cellLabel = mineFieldPanel.Controls[revealCount] as CellLabel;
+            cellLabel.Text = "";
+            cellLabel.Image = null;
+            cellLabel.Enabled = false;
+            if (!minefield.GetCell(cellLabel.Row, cellLabel.Column).HasFlag)
+            {
+                cellLabel.BackColor = ColorPalette.Water;
+            }
+            if (revealCount < mineFieldPanel.Controls.Count - 1)
+            {
+                revealCount++;
+            }
+            else
+            {
+                revealTimer.Enabled = false;
             }
         }
 
@@ -109,7 +133,7 @@ namespace Minesweeper
             int centerX = (this.ClientSize.Width - mineFieldPanel.Width) / 2;
             int centerY = (this.ClientSize.Height- mineFieldPanel.Height) / 2;
             mineFieldPanel.Location = new Point(centerX, centerY);
-            minefield = new Minefield(rows, columns, 10);
+            minefield = new Minefield(rows, columns, 1);
         }
 
         private void RevealBackColor(CellLabel cellLabel)
@@ -121,6 +145,29 @@ namespace Minesweeper
             else
             {
                 cellLabel.BackColor = ColorPalette.DarkTan;
+            }
+            cellLabel.Enabled = false;
+        }
+
+        private void RevealArea(Cell startCell)
+        {
+            List<Cell> areaCells = new List<Cell>();
+            areaCells = minefield.ContinuousBlankCells(startCell);
+            areaCells.AddRange(minefield.ContinousBlankCellsEdges(areaCells));
+            foreach (Cell cell in areaCells)
+            {
+                foreach (CellLabel cellLabel in mineFieldPanel.Controls)
+                {
+                    if (cellLabel.Row == cell.Row
+                        && cellLabel.Column == cell.Column)
+                    {
+                        RevealBackColor(cellLabel);
+                        if (cell.SurroundingBombs > 0)
+                        {
+                            cellLabel.Text = cell.SurroundingBombs.ToString();
+                        }
+                    }
+                }
             }
         }
 
@@ -139,6 +186,12 @@ namespace Minesweeper
                     cellLabel.Enabled = false;
                 }
             }
+        }
+
+        private void GameWon()
+        {
+            revealCount = 0;
+            revealTimer.Enabled = true;
         }
     }
 }

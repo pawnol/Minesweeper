@@ -141,5 +141,64 @@ namespace Minesweeper
             }
             return bombLocations;
         }
+
+        public List<Cell> ContinuousBlankCells (Cell center)
+        {
+            return ContinuousBlankCells(center, new List<Cell>());
+        }
+
+        public List<Cell> ContinuousBlankCells (Cell center, List<Cell> blankCells)
+        {
+            blankCells.Add(center);
+            for (int i = center.Row - 1; i <= center.Row + 1; i++)
+            {
+                for (int j = center.Column - 1; j <= center.Column + 1; j++)
+                {
+                    if (i < 0
+                        || i >= field.GetLength(0)
+                        || j < 0
+                        || j >= field.GetLength(1))
+                    {
+                        continue;
+                    }
+                    else if (field[i, j].Equals(center))
+                    {
+                        continue;
+                    }
+                    else if (field[i, j].SurroundingBombs == 0
+                        && !blankCells.Contains(field[i, j]))
+                    {
+                        ContinuousBlankCells(field[i, j], blankCells);
+                    }
+                }
+            }
+            return blankCells;
+        }
+
+        public List<Cell> ContinousBlankCellsEdges (List<Cell> cells)
+        {
+            List<Cell> newCells = new List<Cell>(cells);
+            foreach (Cell centerCell in cells)
+            {
+                for (int i = centerCell.Row - 1; i <= centerCell.Row + 1; i++)
+                {
+                    for (int j = centerCell.Column - 1; j <= centerCell.Column + 1; j++)
+                    {
+                        if (i < 0
+                        || i >= field.GetLength(0)
+                        || j < 0
+                        || j >= field.GetLength(1))
+                        {
+                            continue;
+                        }
+                        else if (field[i, j].SurroundingBombs > 0 && !cells.Contains(field[i, j]))
+                        {
+                            newCells.Add(field[i, j]);
+                        }
+                    }
+                }
+            }
+            return newCells;
+        }
     }
 }

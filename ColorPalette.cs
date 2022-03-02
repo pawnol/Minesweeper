@@ -50,5 +50,13 @@ namespace Minesweeper
                 return Color.FromArgb(198, 159, 108);
             }
         }
+
+        public static Color Water
+        {
+            get
+            {
+                return Color.FromArgb(51, 204, 255);
+            }
+        }
     }
 }

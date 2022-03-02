@@ -29,7 +29,9 @@ namespace Minesweeper
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.mineFieldPanel = new System.Windows.Forms.Panel();
+            this.revealTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // mineFieldPanel
@@ -40,6 +42,10 @@ namespace Minesweeper
             this.mineFieldPanel.Name = "mineFieldPanel";
             this.mineFieldPanel.Size = new System.Drawing.Size(100, 100);
             this.mineFieldPanel.TabIndex = 0;
+            // 
+            // revealTimer
+            // 
+            this.revealTimer.Tick += new System.EventHandler(this.revealTimer_Tick);
             // 
             // MinesweeperForm
             // 
@@ -60,6 +66,7 @@ namespace Minesweeper
         #endregion
 
         private System.Windows.Forms.Panel mineFieldPanel;
+        private System.Windows.Forms.Timer revealTimer;
     }
 }
 

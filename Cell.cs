@@ -88,5 +88,19 @@ namespace Minesweeper
             _hasFlag = false;
             _surroundingBombs = 0;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            Cell other = obj as Cell;
+            if (other == null)
+            {
+                return false;
+            }
+            return this._row == other._row && this._column == other._column;
+        }
     }
 }
