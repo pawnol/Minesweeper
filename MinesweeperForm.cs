@@ -1,10 +1,4 @@
-﻿/*
- * Minesweeper Form
- * Pawelski
- * 3/1/2022
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
