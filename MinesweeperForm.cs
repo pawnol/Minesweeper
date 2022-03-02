@@ -47,29 +47,7 @@ namespace Minesweeper
             CellLabel cellLabel = (CellLabel)sender;
             MouseEventArgs me = (MouseEventArgs)e;
             Cell cell = minefield.GetCell(cellLabel.Row, cellLabel.Column);
-            if (me.Button == MouseButtons.Right && !cell.HasFlag)
-            {
-                cellLabel.Image = Properties.Resources.Flag;
-                cell.HasFlag = true;
-            }
-            else if (cell.HasFlag)
-            {
-                cellLabel.Image = null;
-                cell.HasFlag = false;
-            }
-            else
-            {
-                if ((cellLabel.Row + cellLabel.Column) % 2 == 0)
-                {
-                    cellLabel.BackColor = ColorPalette.LightTan;
-                }
-                else
-                {
-                    cellLabel.BackColor = ColorPalette.DarkTan;
-                }
-                cellLabel.Text = cell.SurroundingBombs.ToString();
-                cellLabel.Enabled = false;
-            }
+            UpdateCellLabel(cellLabel, me, cell);
         }
 
         private void BuildMinefield(int rows, int columns)
@@ -86,6 +64,7 @@ namespace Minesweeper
                     cell.Height = CELL_SIZE;
                     cell.Width = CELL_SIZE;
                     cell.Text = "";
+                    cell.Enabled = true;
                     if ((i + j) % 2 == 0)
                     {
                         cell.BackColor = ColorPalette.LightGreen;
@@ -108,6 +87,44 @@ namespace Minesweeper
             mineFieldPanel.Location = new Point(centerX, centerY);
 
             minefield = new Minefield(rows, columns, 10);
+        }
+
+        private void UpdateCellLabel(CellLabel cellLabel, MouseEventArgs me, Cell cell)
+        {
+            if (cellLabel.Enabled)
+            {
+                if (me.Button == MouseButtons.Right && !cell.HasFlag)
+                {
+                    cellLabel.Image = Properties.Resources.Flag;
+                    cell.HasFlag = true;
+                }
+                else if (cell.HasFlag)
+                {
+                    cellLabel.Image = null;
+                    cell.HasFlag = false;
+                }
+                else
+                {
+                    if ((cellLabel.Row + cellLabel.Column) % 2 == 0)
+                    {
+                        cellLabel.BackColor = ColorPalette.LightTan;
+                    }
+                    else
+                    {
+                        cellLabel.BackColor = ColorPalette.DarkTan;
+                    }
+
+                    if (cell.HasBomb)
+                    {
+                        cellLabel.Image = Properties.Resources.Bomb;
+                    }
+                    else
+                    {
+                        cellLabel.Text = cell.SurroundingBombs.ToString();
+                    }
+                    cellLabel.Enabled = false;
+                }
+            }
         }
     }
 }
