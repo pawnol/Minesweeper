@@ -31,6 +31,16 @@ namespace Minesweeper
             BuildMinefield(10, 10);
         }
 
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BuildMinefield(10, 10);
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         /// <summary>
         /// Handles all click events for the CellLabels that make up
         /// the board on the form.
@@ -100,6 +110,8 @@ namespace Minesweeper
 
         private void BuildMinefield(int rows, int columns)
         {
+            mineFieldPanel.Controls.Clear();
+            revealTimer.Enabled = false;
             const int CELL_SIZE = 25;
             int y = 0;
             for (int i = 0; i < rows; i++)
@@ -113,6 +125,7 @@ namespace Minesweeper
                     cell.Width = CELL_SIZE;
                     cell.Text = "";
                     cell.Enabled = true;
+                    cell.Font = new Font(cell.Font.FontFamily, 12);
                     if ((i + j) % 2 == 0)
                     {
                         cell.BackColor = ColorPalette.LightGreen;
@@ -193,5 +206,6 @@ namespace Minesweeper
             revealCount = 0;
             revealTimer.Enabled = true;
         }
+
     }
 }
