@@ -105,5 +105,41 @@ namespace Minesweeper
         {
             return field[row, column];
         }
+
+        /// <summary>
+        /// Determines whether all the mines in the minefield have been found and
+        /// marked with a flag.
+        /// </summary>
+        /// <returns>A bool indicating whether all the mines are marked.</returns>
+        public bool HasFoundAllMines()
+        {
+            Cell[] bombLocations = GetBombLocations();
+            foreach (Cell cell in bombLocations)
+            {
+                if (cell.HasBomb && !cell.HasFlag)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public Cell[] GetBombLocations()
+        {
+            int index = 0;
+            Cell[] bombLocations = new Cell[_totalBombs];
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    if (field[i, j].HasBomb)
+                    {
+                        bombLocations[index] = field[i, j];
+                        index++;
+                    }
+                }
+            }
+            return bombLocations;
+        }
     }
 }

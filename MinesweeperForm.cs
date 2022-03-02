@@ -41,7 +41,37 @@ namespace Minesweeper
             CellLabel cellLabel = (CellLabel)sender;
             MouseEventArgs me = (MouseEventArgs)e;
             Cell cell = minefield.GetCell(cellLabel.Row, cellLabel.Column);
-            UpdateCellLabel(cellLabel, me, cell);
+            if (cellLabel.Enabled)
+            {
+                if (me.Button == MouseButtons.Right && !cell.HasFlag)
+                {
+                    cellLabel.Image = Properties.Resources.Flag;
+                    cell.HasFlag = true;
+                    if (minefield.HasFoundAllMines())
+                    {
+                        // To be determined...
+                    }
+                }
+                else if (cell.HasFlag)
+                {
+                    cellLabel.Image = null;
+                    cell.HasFlag = false;
+                }
+                else
+                {
+                    RevealBackColor(cellLabel);
+                    if (cell.HasBomb)
+                    {
+                        cellLabel.Image = Properties.Resources.Bomb;
+                        GameLost();
+                    }
+                    else if (cell.SurroundingBombs > 0)
+                    {
+                        cellLabel.Text = cell.SurroundingBombs.ToString();
+                    }
+                    cellLabel.Enabled = false;
+                }
+            }
         }
 
         private void BuildMinefield(int rows, int columns)
@@ -79,42 +109,32 @@ namespace Minesweeper
             int centerX = (this.ClientSize.Width - mineFieldPanel.Width) / 2;
             int centerY = (this.ClientSize.Height- mineFieldPanel.Height) / 2;
             mineFieldPanel.Location = new Point(centerX, centerY);
-
             minefield = new Minefield(rows, columns, 10);
         }
 
-        private void UpdateCellLabel(CellLabel cellLabel, MouseEventArgs me, Cell cell)
+        private void RevealBackColor(CellLabel cellLabel)
         {
-            if (cellLabel.Enabled)
+            if ((cellLabel.Row + cellLabel.Column) % 2 == 0)
             {
-                if (me.Button == MouseButtons.Right && !cell.HasFlag)
-                {
-                    cellLabel.Image = Properties.Resources.Flag;
-                    cell.HasFlag = true;
-                }
-                else if (cell.HasFlag)
-                {
-                    cellLabel.Image = null;
-                    cell.HasFlag = false;
-                }
-                else
-                {
-                    if ((cellLabel.Row + cellLabel.Column) % 2 == 0)
-                    {
-                        cellLabel.BackColor = ColorPalette.LightTan;
-                    }
-                    else
-                    {
-                        cellLabel.BackColor = ColorPalette.DarkTan;
-                    }
+                cellLabel.BackColor = ColorPalette.LightTan;
+            }
+            else
+            {
+                cellLabel.BackColor = ColorPalette.DarkTan;
+            }
+        }
 
-                    if (cell.HasBomb)
+        private void GameLost()
+        {
+            Cell[] bombLocations = minefield.GetBombLocations();
+            foreach (Cell cell in bombLocations)
+            {
+                foreach (CellLabel cellLabel in mineFieldPanel.Controls)
+                {
+                    if (cellLabel.Row == cell.Row && cellLabel.Column == cell.Column && !cell.HasFlag)
                     {
+                        RevealBackColor(cellLabel);
                         cellLabel.Image = Properties.Resources.Bomb;
-                    }
-                    else
-                    {
-                        cellLabel.Text = cell.SurroundingBombs.ToString();
                     }
                     cellLabel.Enabled = false;
                 }
