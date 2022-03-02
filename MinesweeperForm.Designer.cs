@@ -50,7 +50,7 @@ namespace Minesweeper
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "MinesweeperForm";
-            this.Text = "Form1";
+            this.Text = "Minesweeper";
             this.Load += new System.EventHandler(this.MinesweeperForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

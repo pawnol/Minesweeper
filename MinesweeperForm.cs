@@ -1,10 +1,4 @@
-﻿/*
- * Minesweeper Form
- * Pawelski
- * 3/1/2022
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -47,28 +41,36 @@ namespace Minesweeper
             CellLabel cellLabel = (CellLabel)sender;
             MouseEventArgs me = (MouseEventArgs)e;
             Cell cell = minefield.GetCell(cellLabel.Row, cellLabel.Column);
-            if (me.Button == MouseButtons.Right && !cell.HasFlag)
+            if (cellLabel.Enabled)
             {
-                cellLabel.Image = Properties.Resources.Flag;
-                cell.HasFlag = true;
-            }
-            else if (cell.HasFlag)
-            {
-                cellLabel.Image = null;
-                cell.HasFlag = false;
-            }
-            else
-            {
-                if ((cellLabel.Row + cellLabel.Column) % 2 == 0)
+                if (me.Button == MouseButtons.Right && !cell.HasFlag)
                 {
-                    cellLabel.BackColor = ColorPalette.LightTan;
+                    cellLabel.Image = Properties.Resources.Flag;
+                    cell.HasFlag = true;
+                    if (minefield.HasFoundAllMines())
+                    {
+                        // To be determined...
+                    }
+                }
+                else if (cell.HasFlag)
+                {
+                    cellLabel.Image = null;
+                    cell.HasFlag = false;
                 }
                 else
                 {
-                    cellLabel.BackColor = ColorPalette.DarkTan;
+                    RevealBackColor(cellLabel);
+                    if (cell.HasBomb)
+                    {
+                        cellLabel.Image = Properties.Resources.Bomb;
+                        GameLost();
+                    }
+                    else if (cell.SurroundingBombs > 0)
+                    {
+                        cellLabel.Text = cell.SurroundingBombs.ToString();
+                    }
+                    cellLabel.Enabled = false;
                 }
-                cellLabel.Text = cell.SurroundingBombs.ToString();
-                cellLabel.Enabled = false;
             }
         }
 
@@ -86,6 +88,7 @@ namespace Minesweeper
                     cell.Height = CELL_SIZE;
                     cell.Width = CELL_SIZE;
                     cell.Text = "";
+                    cell.Enabled = true;
                     if ((i + j) % 2 == 0)
                     {
                         cell.BackColor = ColorPalette.LightGreen;
@@ -106,8 +109,36 @@ namespace Minesweeper
             int centerX = (this.ClientSize.Width - mineFieldPanel.Width) / 2;
             int centerY = (this.ClientSize.Height- mineFieldPanel.Height) / 2;
             mineFieldPanel.Location = new Point(centerX, centerY);
-
             minefield = new Minefield(rows, columns, 10);
+        }
+
+        private void RevealBackColor(CellLabel cellLabel)
+        {
+            if ((cellLabel.Row + cellLabel.Column) % 2 == 0)
+            {
+                cellLabel.BackColor = ColorPalette.LightTan;
+            }
+            else
+            {
+                cellLabel.BackColor = ColorPalette.DarkTan;
+            }
+        }
+
+        private void GameLost()
+        {
+            Cell[] bombLocations = minefield.GetBombLocations();
+            foreach (Cell cell in bombLocations)
+            {
+                foreach (CellLabel cellLabel in mineFieldPanel.Controls)
+                {
+                    if (cellLabel.Row == cell.Row && cellLabel.Column == cell.Column && !cell.HasFlag)
+                    {
+                        RevealBackColor(cellLabel);
+                        cellLabel.Image = Properties.Resources.Bomb;
+                    }
+                    cellLabel.Enabled = false;
+                }
+            }
         }
     }
 }
