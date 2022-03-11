@@ -92,12 +92,17 @@ namespace Minesweeper
         {
             CellLabel cellLabel = mineFieldPanel.Controls[revealCount] as CellLabel;
             cellLabel.Text = "";
-            cellLabel.Image = null;
+            
             cellLabel.Enabled = false;
             if (!minefield.GetCell(cellLabel.Row, cellLabel.Column).HasFlag)
             {
                 cellLabel.BackColor = ColorPalette.Water;
             }
+            else
+            {
+                cellLabel.Image = Properties.Resources.FlowerOverlay;
+            }
+
             if (revealCount < mineFieldPanel.Controls.Count - 1)
             {
                 revealCount++;
@@ -146,7 +151,7 @@ namespace Minesweeper
             int centerX = (this.ClientSize.Width - mineFieldPanel.Width) / 2;
             int centerY = (this.ClientSize.Height- mineFieldPanel.Height) / 2;
             mineFieldPanel.Location = new Point(centerX, centerY);
-            minefield = new Minefield(rows, columns, 1);
+            minefield = new Minefield(rows, columns, 2);
         }
 
         private void RevealBackColor(CellLabel cellLabel)
